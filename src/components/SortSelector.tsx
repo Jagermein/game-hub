@@ -7,27 +7,25 @@ interface Props {
     onSelectPlatform: (platform: Platform) => void;
     selectedPlatform: Platform | null;
 }
-const PlatformSelector = ({ onSelectPlatform, selectedPlatform }: Props) => {
+const SortSelector = ({ onSelectPlatform, selectedPlatform }: Props) => {
     const { data, error } = usePlatforms();
 
     if (error) return null;
     return (
         <Menu>
             <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-                {selectedPlatform?.name || "Platforms"}
+                Order by: Relevence
             </MenuButton>
             <MenuList>
-                {data.map((platform) => (
-                    <MenuItem
-                        onClick={() => onSelectPlatform(platform)}
-                        key={platform.id}
-                    >
-                        {platform.name}
-                    </MenuItem>
-                ))}
+                <MenuItem>Relevence</MenuItem>
+                <MenuItem>Date Added</MenuItem>
+                <MenuItem>Name</MenuItem>
+                <MenuItem>Release Date</MenuItem>
+                <MenuItem>Popularity</MenuItem>
+                <MenuItem>Average Rating</MenuItem>
             </MenuList>
         </Menu>
     );
 };
 
-export default PlatformSelector;
+export default SortSelector;
