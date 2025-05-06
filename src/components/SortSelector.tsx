@@ -4,25 +4,38 @@ import { Platform } from "../hooks/useGames";
 import usePlatforms from "../hooks/usePlatforms";
 
 interface Props {
-    onSelectPlatform: (platform: Platform) => void;
-    selectedPlatform: Platform | null;
+    onSelectSortOrder: (sortOrder: string) => void;
+    sortOrder: string;
 }
-const SortSelector = ({ onSelectPlatform, selectedPlatform }: Props) => {
-    const { data, error } = usePlatforms();
+const SortSelector = ({ onSelectSortOrder, sortOrder }: Props) => {
+    const sortOrders = [
+        { value: "", label: "Relevence" },
+        { value: "-added", label: "Date Added" },
+        { value: "name", label: "Name" },
+        { value: "-released", label: "Release Date" },
+        { value: "-metacritic", label: "Popularity" },
+        { value: "-rating", label: "Average Rating" },
+    ];
 
-    if (error) return null;
+    const currentSortOrder = sortOrders.find(
+        (order) => order.value === sortOrder,
+    );
+
     return (
         <Menu>
             <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-                Order by: Relevence
+                Order by: {currentSortOrder?.label || "Relevance"}
             </MenuButton>
             <MenuList>
-                <MenuItem>Relevence</MenuItem>
-                <MenuItem>Date Added</MenuItem>
-                <MenuItem>Name</MenuItem>
-                <MenuItem>Release Date</MenuItem>
-                <MenuItem>Popularity</MenuItem>
-                <MenuItem>Average Rating</MenuItem>
+                {sortOrders.map((order) => (
+                    <MenuItem
+                        onClick={() => onSelectSortOrder(order.value)}
+                        key={order.value}
+                        value={order.value}
+                    >
+                        {order.label}
+                    </MenuItem>
+                ))}
             </MenuList>
         </Menu>
     );
